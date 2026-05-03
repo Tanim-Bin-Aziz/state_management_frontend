@@ -37,7 +37,7 @@ export default function PropertyList({
         />
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-4 pr-2 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto space-y-4 pr-2  hide-scrollbar">
         {data.map((p: Property) => (
           <div
             key={p.id}

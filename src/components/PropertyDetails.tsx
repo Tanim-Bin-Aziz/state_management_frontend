@@ -15,7 +15,7 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
   return (
     <div className="w-[350px] h-full  bg-white flex flex-col min-h-0">
       {/* 🔥 SCROLLABLE AREA */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className="flex-1 overflow-y-auto p-6 space-y-6  hide-scrollbar">
         {/* HEADER */}
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-semibold">{data.title}</h2>
@@ -24,8 +24,6 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
             Active
           </span>
         </div>
-
-        {/* MAIN IMAGE */}
         <div className="relative w-full h-40 rounded-lg overflow-hidden">
           <Image
             src={data.plotDetails.plotPhoto}
@@ -34,7 +32,6 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
             className="object-cover"
           />
         </div>
-
         {/* PLOT DETAILS */}
         <div>
           <h3 className="font-semibold mb-4">Plot Details</h3>
@@ -62,7 +59,6 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
             </div>
           </div>
         </div>
-
         {/* PLOT PHOTO */}
         <div>
           <h3 className="font-semibold mb-3">Plot Photo</h3>
@@ -76,22 +72,18 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
             />
           </div>
         </div>
-
         <div>
           <h3 className="font-semibold mb-3">Flat Details</h3>
 
-          <div className="flex gap-3 text-sm">
-            <div>
-              <span className="font-medium">Type A:</span>{" "}
-              <span className="text-gray-600">1200 sqft</span>
-            </div>
-            <div>
-              <span className="font-medium">Type B:</span>{" "}
-              <span className="text-gray-600">1500 sqft</span>
-            </div>
+          <div className="flex flex-col gap-3 text-sm">
+            {data.flatDetails.flatSize.map((flat, index) => (
+              <div key={index} className="flex justify-between">
+                <span className="font-medium">Type: {flat.type}</span>
+                <span className="text-gray-600">Size: {flat.size}</span>
+              </div>
+            ))}
           </div>
         </div>
-
         {/* SALES INFO */}
         <div>
           <h3 className="font-semibold mb-3">Sales Information</h3>

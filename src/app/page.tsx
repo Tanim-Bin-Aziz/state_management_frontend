@@ -1,7 +1,17 @@
-import React from "react";
+import Hero from "@/components/Hero";
+import Navbar from "@/components/Navbar";
 
-const page = () => {
-  return <div></div>;
+const Home = () => {
+  return (
+    <div className="h-screen overflow-hidden flex flex-col">
+      <div className="h-[64px] shrink-0">
+        <Navbar />
+      </div>
+      <div className="flex-1 overflow-hidden">
+        <Hero />
+      </div>
+    </div>
+  );
 };
 
-export default page;
+export default Home;
