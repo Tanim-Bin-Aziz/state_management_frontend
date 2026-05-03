@@ -51,9 +51,6 @@ const PropertyList = ({ data, onSelect, searchTerm, setSearchTerm }: any) => {
                 <h4 className="font-bold text-gray-800 group-hover:text-[#2dcc87] truncate">
                   {p.title}
                 </h4>
-                <span className="text-[10px] bg-green-50 text-green-600 px-2 py-0.5 rounded-full font-bold uppercase">
-                  ACTIVE
-                </span>
               </div>
               <div className="flex items-center gap-1 text-gray-400 text-xs mt-1">
                 <MapPin size={12} className="shrink-0" />
