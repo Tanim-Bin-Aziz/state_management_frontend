@@ -14,12 +14,9 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
 
   return (
     <div className="w-[350px] h-full  bg-white flex flex-col min-h-0">
-      {/* 🔥 SCROLLABLE AREA */}
       <div className="flex-1 overflow-y-auto p-6 space-y-6  hide-scrollbar">
-        {/* HEADER */}
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-semibold">{data.title}</h2>
-
           <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
             Active
           </span>
@@ -32,7 +29,6 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
             className="object-cover"
           />
         </div>
-        {/* PLOT DETAILS */}
         <div>
           <h3 className="font-semibold mb-4">Plot Details</h3>
 
@@ -43,14 +39,12 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
                 {data.plotDetails.plotOwnerName}
               </span>
             </div>
-
             <div className="grid grid-cols-3 gap-4">
               <span className="text-gray-500">Plot Size</span>
               <span className="col-span-2 font-medium">
                 {data.plotDetails.plotSize}
               </span>
             </div>
-
             <div className="grid grid-cols-3 gap-4">
               <span className="text-gray-500">Address</span>
               <span className="col-span-2 font-medium">
@@ -59,10 +53,8 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
             </div>
           </div>
         </div>
-        {/* PLOT PHOTO */}
         <div>
           <h3 className="font-semibold mb-3">Plot Photo</h3>
-
           <div className="relative w-full h-40 rounded-lg overflow-hidden">
             <Image
               src={data.plotDetails.plotPhoto}
@@ -74,7 +66,6 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
         </div>
         <div>
           <h3 className="font-semibold mb-3">Flat Details</h3>
-
           <div className="flex flex-col gap-3 text-sm">
             {data.flatDetails.flatSize.map((flat, index) => (
               <div key={index} className="flex justify-between">
@@ -84,10 +75,8 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
             ))}
           </div>
         </div>
-        {/* SALES INFO */}
         <div>
           <h3 className="font-semibold mb-3">Sales Information</h3>
-
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-green-50  rounded-lg p-2 text-center">
               <p className="text-2xl font-bold text-green-600">
@@ -95,7 +84,6 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
               </p>
               <p className="text-sm text-gray-500">Sold Flats</p>
             </div>
-
             <div className="bg-blue-50  rounded-lg p-4 text-center">
               <p className="text-2xl font-bold text-blue-600">
                 {data.salesInformation.totalFlats}
@@ -105,7 +93,6 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
           </div>
         </div>
       </div>
-
       <div className="p-4  bg-white">
         <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">
           Contact Agent

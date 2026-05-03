@@ -5,12 +5,7 @@ import { Search, Plus, MapPin } from "lucide-react";
 import { Property } from "@/types/property";
 import Image from "next/image";
 
-export default function PropertyList({
-  data,
-  onSelect,
-  searchTerm,
-  setSearchTerm,
-}: any) {
+const PropertyList = ({ data, onSelect, searchTerm, setSearchTerm }: any) => {
   return (
     <div className="p-6 h-full flex flex-col">
       <div className="flex justify-between items-center mb-6">
@@ -36,7 +31,6 @@ export default function PropertyList({
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-
       <div className="flex-1 overflow-y-auto space-y-4 pr-2  hide-scrollbar">
         {data.map((p: Property) => (
           <div
@@ -52,7 +46,6 @@ export default function PropertyList({
                 className="object-cover"
               />
             </div>
-
             <div className="flex-1 min-w-0">
               <div className="flex justify-between items-start">
                 <h4 className="font-bold text-gray-800 group-hover:text-[#2dcc87] truncate">
@@ -79,4 +72,5 @@ export default function PropertyList({
       </div>
     </div>
   );
-}
+};
+export default PropertyList;
