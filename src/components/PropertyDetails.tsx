@@ -69,12 +69,34 @@ const PropertyDetails = ({ data }: { data: Property | null }) => {
           <div className="flex flex-col gap-3 text-sm">
             {data.flatDetails.flatSize.map((flat, index) => (
               <div key={index} className="flex justify-between">
-                <span className="font-medium">Type: {flat.type}</span>
+                <span className="font-medium">
+                  Type: {flat.type} (৳{data.flatDetails.pricePerSqFt}/sqft)
+                </span>
                 <span className="text-gray-600">Size: {flat.size}</span>
               </div>
             ))}
           </div>
         </div>
+
+        <div>
+          <h3 className="font-semibold mb-3">Flat Plan</h3>
+          <div className="flex gap-3">
+            {data.flatDetails.flatPlan.map((plan, index) => (
+              <div
+                key={index}
+                className="relative w-1/2 h-32 rounded-lg overflow-hidden"
+              >
+                <Image
+                  src={plan.image}
+                  alt={plan.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div>
           <h3 className="font-semibold mb-3">Sales Information</h3>
           <div className="grid grid-cols-2 gap-3">
