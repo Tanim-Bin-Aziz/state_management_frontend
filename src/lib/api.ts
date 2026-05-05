@@ -1,9 +1,8 @@
-import axios from "axios";
-
-const API = process.env.NEXT_PUBLIC_API_URL;
+import api from "@/lib/axios";
 
 const getProperties = async () => {
-  const res = await axios.get(`${API}/properties`);
+  const res = await api.get("/properties");
   return res.data.data;
 };
-export { getProperties };
+
+export default getProperties;

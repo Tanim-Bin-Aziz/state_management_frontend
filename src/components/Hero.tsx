@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import PropertyList from "@/components/PropertyList";
 import PropertyDetails from "@/components/PropertyDetails";
-import { getProperties } from "@/lib/api";
+import getProperties from "@/lib/api";
 import { Property } from "@/types/property";
 
 const MapView = dynamic(() => import("@/components/MapView"), {
