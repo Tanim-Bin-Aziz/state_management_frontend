@@ -1,16 +1,20 @@
-import Hero from "@/components/Hero";
+import Category from "@/components/Category";
+import FeaturedProperties from "@/components/FeatureProperties";
+import LandingPage from "@/components/LandingPage";
 import Navbar from "@/components/Navbar";
 
 const Home = () => {
   return (
-    <div className="h-screen overflow-hidden flex flex-col">
-      <div className="h-16 shrink-0">
-        <Navbar />
-      </div>
-      <div className="flex-1 overflow-hidden">
-        <Hero />
-      </div>
+    <div className="">
+      <Navbar />
+
+      {/* <div className="flex-1 overflow-hidden"> */}
+
+      <LandingPage />
+      <FeaturedProperties />
+      <Category />
     </div>
+    // </div>
   );
 };
 
