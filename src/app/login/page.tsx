@@ -21,13 +21,20 @@ const Login = () => {
       });
 
       const data = await res.json();
-
+      console.log("LOGIN RESPONSE:", data);
       if (!res.ok || !data.token) {
         setError(data.message || "Login failed!");
         return;
       }
 
-      document.cookie = `token=${data.token}; path=/; SameSite=Lax;`;
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      document.cookie = `token=${data.token}; path=/; max-age=86400`;
+
+      // 🔥 Navbar update trigger
+      window.dispatchEvent(new Event("authChange"));
+
+      // redirect
       window.location.href = "/";
     } catch {
       setError("Server connection failed!");

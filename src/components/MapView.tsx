@@ -42,7 +42,11 @@ const MapView = ({ selected, properties }: any) => {
 
         {properties.map((p: any) =>
           p.lat && p.lng ? (
-            <Marker key={p.id} position={[p.lat, p.lng]} />
+            <Marker
+              key={p.id}
+              position={[p.lat, p.lng]}
+              opacity={p.status === "pending" ? 0.4 : 1}
+            />
           ) : null,
         )}
 

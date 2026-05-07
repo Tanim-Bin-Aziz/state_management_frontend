@@ -5,7 +5,13 @@ import { Search, Plus, MapPin } from "lucide-react";
 import { Property } from "@/types/property";
 import Image from "next/image";
 
-const PropertyList = ({ data, onSelect, searchTerm, setSearchTerm }: any) => {
+const PropertyList = ({
+  data,
+  onSelect,
+  searchTerm,
+  setSearchTerm,
+  onAddNew,
+}: any) => {
   return (
     <div className="p-6 h-full flex flex-col">
       <div className="flex justify-between items-center mb-6">
@@ -13,7 +19,10 @@ const PropertyList = ({ data, onSelect, searchTerm, setSearchTerm }: any) => {
           All Projects
           <span className="text-gray-400 text-sm font-normal"></span>
         </h2>
-        <button className="bg-[#2dcc87] text-white px-2 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
+        <button
+          onClick={onAddNew}
+          className="bg-[#2dcc87] text-white px-2 py-2 rounded-lg text-sm font-medium flex items-center gap-2"
+        >
           <Plus size={15} /> Add New
         </button>
       </div>
