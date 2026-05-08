@@ -167,7 +167,9 @@ export default function AdminDashboard() {
                         📍 {property.lat.toFixed(4)}, {property.lng.toFixed(4)}
                       </span>
                     )}
-                    <span>💰 {getPrice(property)}</span>
+                    <span>
+                      💰 {getPrice(property.flatDetails.pricePerSqFt)}
+                    </span>
                     {property.createdAt && (
                       <span>
                         🕐{" "}

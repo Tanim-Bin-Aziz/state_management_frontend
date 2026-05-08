@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { createProperty } from "@/lib/api";
 
@@ -16,6 +18,8 @@ interface Props {
 const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const [visible, setVisible] = useState(false);
 
   // Basic info
   const [title, setTitle] = useState("");
@@ -37,6 +41,17 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
   const [totalFlats, setTotalFlats] = useState("");
   const [soldFlats, setSoldFlats] = useState("");
 
+  useEffect(() => {
+    setVisible(true);
+  }, []);
+
+  const handleClose = () => {
+    setVisible(false);
+    setTimeout(() => {
+      onClose();
+    }, 250);
+  };
+
   const handleSubmit = async () => {
     setError("");
 
@@ -49,11 +64,12 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
       !address ||
       !plotPhoto
     ) {
-      setError("required field");
+      setError("Required fields missing");
       return;
     }
 
     setLoading(true);
+
     try {
       await createProperty({
         id: Date.now(),
@@ -71,49 +87,80 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
           soldFlats: Number(soldFlats),
         },
       });
+
       onSuccess();
-      onClose();
+      handleClose();
     } catch {
-      setError("Submit failed! try again।");
+      setError("Submit failed!");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-[9999] flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl w-full max-w-xl h-[85vh] flex flex-col">
-        {/* Header - fixed */}
-        <div className="flex items-center justify-between p-4 border-b shrink-0">
-          <h2 className="text-lg font-bold">New Property</h2>
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+      {/* BACKDROP */}
+      <div
+        onClick={handleClose}
+        className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
+          visible ? "opacity-100" : "opacity-0"
+        }`}
+      />
+
+      {/* MODAL */}
+      <div
+        className={`relative w-full max-w-2xl h-[85vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200
+        transition-all duration-300 ease-out
+        ${
+          visible
+            ? "opacity-100 scale-100 translate-y-0"
+            : "opacity-0 scale-95 translate-y-4"
+        }`}
+      >
+        {/* HEADER */}
+        <div className="flex items-center justify-between px-6 py-4  bg-white/80 backdrop-blur">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">
+              New Property
+            </h2>
+            <p className="text-xs text-gray-500">
+              Add property listing details
+            </p>
+          </div>
+
           <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-xl"
+            onClick={handleClose}
+            className="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500"
           >
             ✕
           </button>
         </div>
 
-        {/* Body - scrollable */}
-        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+        {/* BODY */}
+        <div className="flex-1 overflow-y-auto px-6 py-5 space-y-8">
           {error && (
-            <p className="text-red-500 text-sm bg-red-50 p-2 rounded">
+            <div className="text-sm bg-red-50 text-red-600 p-3 rounded-xl border border-red-100">
               {error}
-            </p>
+            </div>
           )}
 
+          {/* BASIC INFO */}
           <Section title="Basic Info">
             <Input label="Title *" value={title} onChange={setTitle} />
-            <MapPicker
-              lat={lat}
-              lng={lng}
-              onChange={(la, ln) => {
-                setLat(la);
-                setLng(ln);
-              }}
-            />
+
+            <div className="rounded-xl overflow-hidden">
+              <MapPicker
+                lat={lat}
+                lng={lng}
+                onChange={(la, ln) => {
+                  setLat(la);
+                  setLng(ln);
+                }}
+              />
+            </div>
           </Section>
 
+          {/* PLOT DETAILS */}
           <Section title="Plot Details">
             <Input
               label="Owner Name *"
@@ -124,130 +171,123 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
               label="Plot Size *"
               value={plotSize}
               onChange={setPlotSize}
-              placeholder="e.g. 5 Katha"
             />
             <Input label="Address *" value={address} onChange={setAddress} />
             <Input
-              label="Plot Photo URL *"
+              label="Photo URL *"
               value={plotPhoto}
               onChange={setPlotPhoto}
-              placeholder="https://..."
             />
           </Section>
 
+          {/* FLAT DETAILS */}
           <Section title="Flat Details">
             <Input
-              label="Price Per Sq Ft"
+              label="Price / Sq Ft"
               value={pricePerSqFt}
               onChange={setPricePerSqFt}
-              type="number"
             />
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                Flat Sizes
-              </label>
-              {flatSizes.map((fs, i) => (
-                <div key={i} className="flex gap-2 mt-1">
-                  <input
-                    className={inputClass}
-                    placeholder="Type (e.g. 3BHK)"
-                    value={fs.type}
-                    onChange={(e) => {
-                      const n = [...flatSizes];
-                      n[i].type = e.target.value;
-                      setFlatSizes(n);
-                    }}
-                  />
-                  <input
-                    className={inputClass}
-                    placeholder="Size (e.g. 1200 sqft)"
-                    value={fs.size}
-                    onChange={(e) => {
-                      const n = [...flatSizes];
-                      n[i].size = e.target.value;
-                      setFlatSizes(n);
-                    }}
-                  />
-                </div>
-              ))}
-              <button
-                onClick={() =>
-                  setFlatSizes([...flatSizes, { type: "", size: "" }])
-                }
-                className="text-blue-500 text-sm mt-1"
-              >
-                + Add more
-              </button>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                Flat Plans
-              </label>
-              {flatPlans.map((fp, i) => (
-                <div key={i} className="flex gap-2 mt-1">
-                  <input
-                    className={inputClass}
-                    placeholder="Plan name"
-                    value={fp.name}
-                    onChange={(e) => {
-                      const n = [...flatPlans];
-                      n[i].name = e.target.value;
-                      setFlatPlans(n);
-                    }}
-                  />
-                  <input
-                    className={inputClass}
-                    placeholder="Image URL"
-                    value={fp.image}
-                    onChange={(e) => {
-                      const n = [...flatPlans];
-                      n[i].image = e.target.value;
-                      setFlatPlans(n);
-                    }}
-                  />
-                </div>
-              ))}
-              <button
-                onClick={() =>
-                  setFlatPlans([...flatPlans, { name: "", image: "" }])
-                }
-                className="text-blue-500 text-sm mt-1"
-              >
-                + Add more
-              </button>
-            </div>
+
+            <label className="text-sm font-medium text-gray-700">
+              Flat Sizes
+            </label>
+
+            {flatSizes.map((fs, i) => (
+              <div key={i} className="grid grid-cols-2 gap-3">
+                <input
+                  className={inputClass}
+                  placeholder="Type"
+                  value={fs.type}
+                  onChange={(e) => {
+                    const n = [...flatSizes];
+                    n[i].type = e.target.value;
+                    setFlatSizes(n);
+                  }}
+                />
+                <input
+                  className={inputClass}
+                  placeholder="Size"
+                  value={fs.size}
+                  onChange={(e) => {
+                    const n = [...flatSizes];
+                    n[i].size = e.target.value;
+                    setFlatSizes(n);
+                  }}
+                />
+              </div>
+            ))}
+
+            <button
+              onClick={() =>
+                setFlatSizes([...flatSizes, { type: "", size: "" }])
+              }
+              className="text-emerald-600 text-sm hover:text-emerald-700"
+            >
+              + Add more
+            </button>
+
+            <label className="text-sm font-medium text-gray-700 mt-4 block">
+              Flat Plans
+            </label>
+
+            {flatPlans.map((fp, i) => (
+              <div key={i} className="grid grid-cols-2 gap-3">
+                <input
+                  className={inputClass}
+                  placeholder="Name"
+                  value={fp.name}
+                  onChange={(e) => {
+                    const n = [...flatPlans];
+                    n[i].name = e.target.value;
+                    setFlatPlans(n);
+                  }}
+                />
+                <input
+                  className={inputClass}
+                  placeholder="Image"
+                  value={fp.image}
+                  onChange={(e) => {
+                    const n = [...flatPlans];
+                    n[i].image = e.target.value;
+                    setFlatPlans(n);
+                  }}
+                />
+              </div>
+            ))}
           </Section>
 
-          <Section title="Sales Information">
-            <Input
-              label="Total Flats"
-              value={totalFlats}
-              onChange={setTotalFlats}
-              type="number"
-            />
-            <Input
-              label="Sold Flats"
-              value={soldFlats}
-              onChange={setSoldFlats}
-              type="number"
-            />
+          {/* SALES INFO */}
+          <Section title="Sales Info">
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                label="Total Flats"
+                value={totalFlats}
+                onChange={setTotalFlats}
+              />
+              <Input
+                label="Sold Flats"
+                value={soldFlats}
+                onChange={setSoldFlats}
+              />
+            </div>
           </Section>
         </div>
 
-        {/* Footer - fixed */}
-        <div className="flex gap-3 p-4 border-t shrink-0">
+        {/* FOOTER */}
+        <div className="p-4 bg-white flex gap-3">
           <button
-            onClick={onClose}
-            className="flex-1 border p-2 rounded hover:bg-gray-50 text-sm"
+            onClick={handleClose}
+            className="flex-1 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 text-sm"
           >
             Cancel
           </button>
+
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="flex-1 bg-green-500 text-white p-2 rounded hover:bg-green-600 disabled:opacity-50 text-sm"
+            className="flex-1 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm disabled:opacity-50"
           >
-            {loading ? "Submitting..." : "Submit for Review"}
+            {loading ? "Submitting..." : "Submit"}
           </button>
         </div>
       </div>
@@ -255,45 +295,28 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
   );
 };
 
-// Helper components
+/* helpers */
 const inputClass =
-  "border p-2 rounded w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-300";
+  "w-full bg-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-gray-300 outline-none";
 
-const Input = ({
-  label,
-  value,
-  onChange,
-  type = "text",
-  placeholder = "",
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  type?: string;
-  placeholder?: string;
-}) => (
-  <div>
-    <label className="text-sm font-medium text-gray-700">{label}</label>
+const Input = ({ label, value, onChange }: any) => (
+  <div className="space-y-1">
+    <label className="text-sm text-gray-700">{label}</label>
     <input
-      className={`${inputClass} mt-1`}
-      type={type}
+      className={inputClass}
       value={value}
-      placeholder={placeholder}
       onChange={(e) => onChange(e.target.value)}
     />
   </div>
 );
 
-const Section = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) => (
-  <div className="flex flex-col gap-3">
-    <h3 className="font-semibold text-gray-800 border-b pb-1">{title}</h3>
-    {children}
+const Section = ({ title, children }: any) => (
+  <div className="space-y-4">
+    <div className="flex items-center gap-2">
+      <div className="w-2 h-2 rounded-full bg-emerald-500" />
+      <h3 className="text-sm font-semibold text-gray-800">{title}</h3>
+    </div>
+    <div className="space-y-3">{children}</div>
   </div>
 );
 

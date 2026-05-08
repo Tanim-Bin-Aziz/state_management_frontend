@@ -7,7 +7,7 @@ const LandingPage = () => {
   return (
     <section className="relative min-h-screen flex bg-black overflow-hidden pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 lg:py-0">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 ml-8 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Left Side */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -57,7 +57,7 @@ const LandingPage = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative h-[420px] sm:h-[500px] lg:h-[700px] mt-6 lg:mt-0 "
+            className="relative h-[420px] sm:h-[500px] lg:h-[700px] mt-6 mr-2 lg:mt-0 "
           >
             <div className="relative z-20 h-full flex flex-col justify-center space-y-6 p-4 sm:p-6">
               {" "}

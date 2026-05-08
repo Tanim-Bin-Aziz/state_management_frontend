@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 const navItems = [
   { name: "Home", href: "/", icon: Home },
   { name: "About", href: "/about", icon: Info },
-  { name: "Services", href: "/services", icon: Briefcase },
+  { name: "Properties", href: "/hero", icon: Briefcase }, // 👈 changed
   { name: "Contact", href: "/contact", icon: Phone },
 ];
 
@@ -52,6 +52,17 @@ const Navbar = () => {
     router.push("/login");
   };
 
+  const handleScroll = (href: string) => {
+    if (href === "hero") {
+      document.getElementById("hero")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else {
+      router.push(href);
+    }
+  };
+
   const allNavItems = [
     ...navItems,
     ...(isAdmin ? [{ name: "Admin", href: "/admin", icon: Shield }] : []),
@@ -62,13 +73,9 @@ const Navbar = () => {
       <div className="max-w-6xl mx-auto flex justify-between items-center h-16 px-6 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.15)]">
         {/* Logo */}
         <Link href="/">
-          <Image
-            src="/BuildCrop.svg"
-            alt="MyBrand"
-            width={150}
-            height={60}
-            className="object-contain"
-          />
+          <h3 className="text-white text-2xl italic font-bold tracking-wide">
+            Bismillah Royal House Developer LTD
+          </h3>
         </Link>
 
         {/* Desktop Menu */}
@@ -78,8 +85,8 @@ const Navbar = () => {
 
             return (
               <li key={item.name} className="relative group">
-                <Link
-                  href={item.href}
+                <button
+                  onClick={() => handleScroll(item.href)}
                   className={`flex items-center gap-2 font-medium transition-colors duration-300 ${
                     item.name === "Admin"
                       ? "text-blue-300"
@@ -88,14 +95,13 @@ const Navbar = () => {
                 >
                   <Icon size={16} />
                   {item.name}
-                </Link>
+                </button>
 
                 <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
               </li>
             );
           })}
 
-          {/* Logout */}
           {isLoggedIn && (
             <li>
               <button
@@ -123,10 +129,10 @@ const Navbar = () => {
           const Icon = item.icon;
 
           return (
-            <div key={item.name} className="relative group">
-              <Link
-                href={item.href}
-                className={`flex items-center gap-2 py-2 transition-colors duration-300 ${
+            <div key={item.name}>
+              <button
+                onClick={() => handleScroll(item.href)}
+                className={`flex items-center gap-2 py-2 w-full text-left transition-colors duration-300 ${
                   item.name === "Admin"
                     ? "text-blue-300"
                     : "text-white/80 hover:text-white"
@@ -134,14 +140,11 @@ const Navbar = () => {
               >
                 <Icon size={18} />
                 {item.name}
-              </Link>
-
-              <span className="absolute left-0 bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
+              </button>
             </div>
           );
         })}
 
-        {/* Mobile Logout */}
         {isLoggedIn && (
           <button
             onClick={handleLogout}
