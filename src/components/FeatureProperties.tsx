@@ -5,6 +5,7 @@ import { MapPin, Bed, Bath, Square } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import getProperties, { Property } from "@/lib/api";
+import { BsCash, BsHouse } from "react-icons/bs";
 
 const Badge = ({ children }: { children: React.ReactNode }) => (
   <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">
@@ -85,41 +86,32 @@ export default function FeaturedProperties() {
 
                   {/* Stats */}
                   <div className="flex justify-between mt-4 text-sm text-white/70">
-                    <div className="flex items-center gap-1">
-                      <Bed size={14} /> {p.beds ?? 0}
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1">
+                        <BsCash size={16} className="shrink-0 mt-[3px]" />
+                        <span>Price/sqft:</span>
+                        <span className="text-white">
+                          {p.flatDetails?.pricePerSqFt
+                            ? `৳ ${Number(
+                                p.flatDetails.pricePerSqFt,
+                              ).toLocaleString("en-BD")}`
+                            : "N/A"}
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="flex items-center gap-1">
-                      <Bath size={14} /> {p.baths ?? 0}
-                    </div>
-
-                    <div className="flex items-center gap-1">
-                      <Square size={14} /> {p.sqft ?? "N/A"}
-                    </div>
-                  </div>
-
-                  {/* Extra Info */}
-                  <div className="mt-4 text-xs text-white/60 space-y-1">
-                    <div>
-                      Price/sqft:{" "}
-                      <span className="text-white">
-                        {p.flatDetails?.pricePerSqFt
-                          ? `৳ ${Number(
-                              p.flatDetails.pricePerSqFt,
-                            ).toLocaleString("en-BD")}`
-                          : "N/A"}
-                      </span>
-                    </div>
-
-                    <div>
-                      Available flats:{" "}
-                      <span className="text-white">
-                        {p.salesInformation?.totalFlats != null &&
-                        p.salesInformation?.soldFlats != null
-                          ? Number(p.salesInformation.totalFlats) -
-                            Number(p.salesInformation.soldFlats)
-                          : "N/A"}
-                      </span>
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1">
+                        <BsHouse size={14} className="shrink-0" />
+                        <span>Available:</span>
+                        <span className="text-white">
+                          {p.salesInformation?.totalFlats != null &&
+                          p.salesInformation?.soldFlats != null
+                            ? Number(p.salesInformation.totalFlats) -
+                              Number(p.salesInformation.soldFlats)
+                            : "N/A"}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>

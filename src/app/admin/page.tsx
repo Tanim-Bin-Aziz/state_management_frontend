@@ -20,14 +20,12 @@ export default function AdminDashboard() {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(
     null,
   );
-  // ✅ Animation state — modal open হলে true, close করলে false হয়ে তারপর unmount
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     fetchPending();
   }, []);
 
-  // ✅ selectedProperty set হলে এক tick পরে isVisible = true (enter animation trigger)
   useEffect(() => {
     if (selectedProperty) {
       requestAnimationFrame(() => setIsVisible(true));
@@ -36,7 +34,6 @@ export default function AdminDashboard() {
 
   function closeModal() {
     setIsVisible(false);
-    // ✅ exit animation শেষ হওয়ার পর unmount
     setTimeout(() => setSelectedProperty(null), 250);
   }
 
@@ -118,7 +115,6 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* Loading */}
           {loading && (
             <div className="flex items-center justify-center py-20 text-gray-400">
               <svg
@@ -144,7 +140,6 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* Error */}
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 flex items-center gap-3">
               <span>⚠️</span>
@@ -158,7 +153,6 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* Empty */}
           {!loading && !error && properties.length === 0 && (
             <div className="text-center py-20 text-gray-400">
               <p className="text-5xl mb-4">🎉</p>
@@ -167,7 +161,6 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* Property List */}
           {!loading && properties.length > 0 && (
             <div className="space-y-4">
               {properties.map((property) => {

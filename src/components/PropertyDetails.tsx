@@ -191,7 +191,6 @@ const PropertyDetails = ({ data, onClose }: Props) => {
         </div>
       </div>
 
-      {/* FOOTER */}
       <div className="p-4 border-t border-gray-100 bg-white shrink-0">
         <button className="w-full bg-emerald-500 hover:bg-emerald-600 active:scale-[0.98] text-white py-3 rounded-2xl font-medium shadow-md transition-all duration-200">
           Contact Agent

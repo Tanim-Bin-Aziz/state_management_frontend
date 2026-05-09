@@ -9,8 +9,8 @@ const Home = () => {
   return (
     <>
       <LandingPage />
-      <FeaturedProperties />
       <Category />
+      <FeaturedProperties />
       <WhyChooseUs />
       <Testimonials />
       <Footer />

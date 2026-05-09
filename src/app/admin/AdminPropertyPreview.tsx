@@ -38,13 +38,13 @@ const Section = ({
   </div>
 );
 
-export default function AdminPropertyPreview({
+const AdminPropertyPreview = ({
   property,
   onClose,
   onApprove,
   onReject,
   actionLoading,
-}: Props) {
+}: Props) => {
   if (!property) return null;
 
   const totalFlats = property.salesInformation?.totalFlats ?? 0;
@@ -80,7 +80,6 @@ export default function AdminPropertyPreview({
       </div>
 
       <div className="overflow-y-auto max-h-[65vh]">
-        {/* Hero Image */}
         <div className="relative h-52 w-full bg-gray-100">
           <Image
             src={property.plotDetails?.plotPhoto || "/placeholder.png"}
@@ -92,7 +91,6 @@ export default function AdminPropertyPreview({
         </div>
 
         <div className="p-5 space-y-6">
-          {/* Stats Row */}
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-emerald-50 rounded-xl p-3 text-center">
               <p className="text-[11px] text-emerald-600 font-medium uppercase tracking-wide">
@@ -119,8 +117,6 @@ export default function AdminPropertyPreview({
               </p>
             </div>
           </div>
-
-          {/* Sales Progress */}
           <div>
             <div className="flex justify-between text-xs text-gray-500 mb-1.5">
               <span>Sales Progress</span>
@@ -135,15 +131,11 @@ export default function AdminPropertyPreview({
               />
             </div>
           </div>
-
-          {/* Map */}
           <Section icon={<MapPin size={14} />} title="Location">
             <div className="rounded-xl overflow-hidden h-[200px] border border-gray-200">
               <MapView properties={[property]} selected={property} />
             </div>
           </Section>
-
-          {/* Flat Sizes */}
           {(property.flatDetails?.flatSize?.length ?? 0) > 0 && (
             <Section icon={<LayoutGrid size={14} />} title="Flat Sizes">
               <div className="space-y-2">
@@ -168,8 +160,6 @@ export default function AdminPropertyPreview({
               </div>
             </Section>
           )}
-
-          {/* Floor Plans */}
           {(property.flatDetails?.flatPlan?.length ?? 0) > 0 && (
             <Section icon={<Layers size={14} />} title="Floor Plans">
               <div className="grid grid-cols-2 gap-3">
@@ -217,4 +207,5 @@ export default function AdminPropertyPreview({
       </div>
     </div>
   );
-}
+};
+export default AdminPropertyPreview;
