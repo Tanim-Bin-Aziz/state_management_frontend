@@ -49,7 +49,6 @@ export default function FeaturedProperties() {
           <p className="text-white/60">Handpicked premium listings</p>
         </div>
 
-        {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {properties.map((p, index) => (
             <motion.div
@@ -61,7 +60,6 @@ export default function FeaturedProperties() {
               className="group"
             >
               <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/5 hover:scale-[1.02] transition">
-                {/* Image */}
                 <div className="relative h-48">
                   <Image
                     src={p.plotDetails?.plotPhoto as string}
@@ -75,16 +73,12 @@ export default function FeaturedProperties() {
                   </div>
                 </div>
 
-                {/* Content */}
                 <div className="p-5 text-white">
                   <h3 className="font-semibold text-lg">{p.title}</h3>
-
                   <div className="flex items-center gap-1 text-white/60 text-sm mt-1">
                     <MapPin size={14} />
                     {p.location}
                   </div>
-
-                  {/* Stats */}
                   <div className="flex justify-between mt-4 text-sm text-white/70">
                     <div className="flex items-center gap-2">
                       <div className="flex items-center gap-1">

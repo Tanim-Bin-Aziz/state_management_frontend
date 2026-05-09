@@ -24,7 +24,6 @@ const Contact = () => {
   return (
     <section className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header Part */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
             Amader Sathe Jogajog Korun
@@ -35,7 +34,6 @@ const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* Contact Info */}
           <div className="bg-white p-8 rounded-xl shadow-md">
             <h3 className="text-2xl font-semibold text-gray-800 mb-6">
               Contact Info
@@ -73,7 +71,6 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Google Maps Placeholder */}
             <div className="mt-8 h-48 bg-gray-200 rounded-lg overflow-hidden">
               <div className="w-full h-full flex items-center justify-center text-gray-400">
                 [ Google Map Ekhane Add Korte Paren ]
@@ -81,7 +78,6 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Contact Form */}
           <div className="bg-white p-8 rounded-xl shadow-md">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>

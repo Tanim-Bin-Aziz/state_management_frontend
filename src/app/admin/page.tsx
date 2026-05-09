@@ -92,8 +92,6 @@ export default function AdminDashboard() {
             </h1>
             <p className="text-gray-500 mt-1">Pending properties review</p>
           </div>
-
-          {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
               <p className="text-sm text-gray-500">Pending</p>

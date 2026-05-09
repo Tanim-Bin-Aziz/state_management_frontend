@@ -99,15 +99,12 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center">
-      {/* BACKDROP */}
       <div
         onClick={handleClose}
         className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
           visible ? "opacity-100" : "opacity-0"
         }`}
       />
-
-      {/* MODAL */}
       <div
         className={`relative w-full max-w-2xl h-[85vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200
         transition-all duration-300 ease-out
@@ -117,7 +114,6 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
             : "opacity-0 scale-95 translate-y-4"
         }`}
       >
-        {/* HEADER */}
         <div className="flex items-center justify-between px-6 py-4  bg-white/80 backdrop-blur">
           <div>
             <h2 className="text-lg font-semibold text-gray-900">
@@ -136,7 +132,6 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
           </button>
         </div>
 
-        {/* BODY */}
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-8">
           {error && (
             <div className="text-sm bg-red-50 text-red-600 p-3 rounded-xl border border-red-100">
@@ -144,7 +139,6 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
             </div>
           )}
 
-          {/* BASIC INFO */}
           <Section title="Basic Info">
             <Input label="Title *" value={title} onChange={setTitle} />
 
@@ -160,7 +154,6 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
             </div>
           </Section>
 
-          {/* PLOT DETAILS */}
           <Section title="Plot Details">
             <Input
               label="Owner Name *"
@@ -180,7 +173,6 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
             />
           </Section>
 
-          {/* FLAT DETAILS */}
           <Section title="Flat Details">
             <Input
               label="Price / Sq Ft"
@@ -256,7 +248,6 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
             ))}
           </Section>
 
-          {/* SALES INFO */}
           <Section title="Sales Info">
             <div className="grid grid-cols-2 gap-3">
               <Input
@@ -273,7 +264,6 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
           </Section>
         </div>
 
-        {/* FOOTER */}
         <div className="p-4 bg-white flex gap-3">
           <button
             onClick={handleClose}
@@ -295,7 +285,6 @@ const AddPropertyModal = ({ onClose, onSuccess }: Props) => {
   );
 };
 
-/* helpers */
 const inputClass =
   "w-full bg-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-gray-300 outline-none";
 

@@ -56,7 +56,6 @@ const Hero = () => {
       z-0
     "
     >
-      {/* LEFT SIDEBAR */}
       <div
         className={`
           relative
@@ -77,12 +76,9 @@ const Hero = () => {
         />
       </div>
 
-      {/* MAP */}
       <div className="flex-1 relative  overflow-hidden rounded-xl mx-2">
         <MapView properties={filteredProperties} selected={selected} />
       </div>
-
-      {/* RIGHT DETAILS SIDEBAR */}
       <div
         className={`
           transition-all
@@ -112,8 +108,6 @@ const Hero = () => {
           />
         </div>
       </div>
-
-      {/* MODAL */}
       {showModal && (
         <AddPropertyModal
           onClose={() => setShowModal(false)}

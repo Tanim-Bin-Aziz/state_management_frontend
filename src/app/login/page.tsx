@@ -31,10 +31,8 @@ const Login = () => {
       localStorage.setItem("user", JSON.stringify(data.user));
       document.cookie = `token=${data.token}; path=/; max-age=86400`;
 
-      // 🔥 Navbar update trigger
       window.dispatchEvent(new Event("authChange"));
 
-      // redirect
       window.location.href = "/";
     } catch {
       setError("Server connection failed!");
