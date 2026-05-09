@@ -23,7 +23,7 @@ const PropertyList = ({
 }: any) => {
   return (
     <div
-      className={`h-full bg-white/70 backdrop-blur-xl border-r border-gray-200/60 shadow-xl transition-all duration-300 flex flex-col
+      className={`h-full  bg-white/70 backdrop-blur-xl border-r border-gray-200/60 shadow-xl transition-all duration-300 flex flex-col
       ${isOpen ? "w-[350px]" : "w-[70px]"}`}
     >
       {/* HEADER */}

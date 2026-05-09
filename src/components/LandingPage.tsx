@@ -1,14 +1,35 @@
 "use client";
-import { Search, MapPin, DollarSign, Home } from "lucide-react";
+
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import api from "@/lib/axios";
+import { Property } from "@/lib/api";
 
 const LandingPage = () => {
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const res = await api.get("/properties");
+        setProperties(res.data.data.slice(0, 3)); // only 3 cards
+      } catch (err) {
+        console.error("Failed to load properties:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex bg-black overflow-hidden pt-16">
+    <section className="relative min-h-screen items-center flex overflow-hidden ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 lg:py-0">
         <div className="grid grid-cols-1 ml-8 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Left Side */}
+          {/* LEFT SIDE */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -21,94 +42,87 @@ const LandingPage = () => {
                 <br />
                 <span className="text-white/60">Dream Home</span>
               </h1>
+
               <p className="text-base sm:text-lg lg:text-xl text-white/70 max-w-lg">
-                Discover luxury properties in prime locations. Your perfect home
-                awaits with our expert guidance.
+                Discover luxury properties in prime locations.
               </p>
             </div>
-            <button className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm sm:text-base font-medium text-white backdrop-blur-md transition-all duration-300 hover:border-white/50 hover:bg-white hover:text-black hover:shadow-[0_0_30px_rgba(255,255,255,0.15)]">
-              View All Properties
-              <span className="transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
+
+            <button className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 text-white backdrop-blur-md hover:bg-white hover:text-black transition">
+              View All Properties →
             </button>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-4 sm:gap-6">
-              {[
-                { label: "Properties", value: "1,200+" },
-                { label: "Clients", value: "850+" },
-                { label: "Cities", value: "45+" },
-              ].map((stat) => (
-                <div key={stat.label} className="space-y-1">
-                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs sm:text-sm text-white/60">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <div className="text-2xl font-bold text-white">1,200+</div>
+                <div className="text-white/60 text-sm">Properties</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-white">850+</div>
+                <div className="text-white/60 text-sm">Clients</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-white">45+</div>
+                <div className="text-white/60 text-sm">Cities</div>
+              </div>
             </div>
           </motion.div>
 
-          {/* Right Side */}
+          {/* RIGHT SIDE (DYNAMIC CARDS) */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative h-[420px] sm:h-[500px] lg:h-[700px] mt-6 mr-2 lg:mt-0 "
+            className="relative h-[420px] sm:h-[500px] lg:h-[700px]"
           >
             <div className="relative z-20 h-full flex flex-col justify-center space-y-6 p-4 sm:p-6">
-              {" "}
-              {/* Card 1 */}
-              <div className="ml-60 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer">
-                {" "}
-                <Image
-                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
-                  height={300}
-                  width={300}
-                  className="w-full h-28 object-cover rounded-lg mb-2"
-                  alt={""}
-                />
-                <div className="text-white font-semibold text-sm">
-                  Modern Penthouse
-                </div>
-                <div className="text-white/60 text-xs">Manhattan, NY</div>
-                <div className="text-white font-bold text-sm">$2.45M</div>
-              </div>
-              {/* Card 2 */}
-              <div className="mr-60 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer">
-                {" "}
-                <Image
-                  src="https://images.unsplash.com/photo-1600585154526-990dced4db0d"
-                  height={300}
-                  width={300}
-                  className="w-full h-28 object-cover rounded-lg mb-2"
-                  alt={""}
-                />
-                <div className="text-white font-semibold text-sm">
-                  Luxury Villa
-                </div>
-                <div className="text-white/60 text-xs">Beverly Hills, CA</div>
-                <div className="text-white font-bold text-sm">$3.85M</div>
-              </div>
-              {/* Card 3 */}
-              <div className="ml-60 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer">
-                {" "}
-                <Image
-                  src="https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6"
-                  height={300}
-                  width={300}
-                  className="w-full h-28 object-cover rounded-lg mb-2"
-                  alt={""}
-                />
-                <div className="text-white font-semibold text-sm">
-                  City Apartment
-                </div>
-                <div className="text-white/60 text-xs">Miami, FL</div>
-                <div className="text-white font-bold text-sm">$1.29M</div>
-              </div>
+              {loading ? (
+                <div className="text-white">Loading...</div>
+              ) : (
+                properties.map((property, index) => {
+                  const isLeft = index % 2 === 0;
+
+                  return (
+                    <div
+                      key={property._id}
+                      className={`transition-all border border-white/20 p-2 rounded-xl duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer
+                        ${isLeft ? "ml-60" : "mr-60"}`}
+                    >
+                      <Image
+                        src={
+                          typeof property.plotDetails?.plotPhoto === "string" &&
+                          property.plotDetails.plotPhoto
+                            ? property.plotDetails.plotPhoto
+                            : "https://via.placeholder.com/300"
+                        }
+                        height={300}
+                        width={300}
+                        className="w-full h-28 object-cover rounded-lg mb-2"
+                        alt={property.title}
+                      />
+
+                      <div className="text-white font-semibold text-sm">
+                        {property.title}
+                      </div>
+
+                      <div className="text-white/60 text-xs">
+                        {typeof property.plotDetails?.address === "string"
+                          ? property.plotDetails.address
+                          : "No address"}
+                      </div>
+
+                      <div className="text-white font-bold text-sm">
+                        ৳{" "}
+                        {property?.flatDetails?.pricePerSqFt != null
+                          ? Number(
+                              property.flatDetails.pricePerSqFt,
+                            ).toLocaleString("en-IN")
+                          : "N/A"}
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </motion.div>
         </div>
@@ -116,4 +130,5 @@ const LandingPage = () => {
     </section>
   );
 };
+
 export default LandingPage;

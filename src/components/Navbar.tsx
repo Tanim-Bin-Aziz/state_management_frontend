@@ -1,36 +1,27 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import {
-  Home,
-  Info,
-  Briefcase,
-  Phone,
-  Menu,
-  Shield,
-  LogOut,
-} from "lucide-react";
-import { useSyncExternalStore } from "react";
+import { Home, Briefcase, Phone, Menu, Shield, LogOut, X } from "lucide-react";
+import { useSyncExternalStore, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const navItems = [
   { name: "Home", href: "/", icon: Home },
-  { name: "About", href: "/about", icon: Info },
-  { name: "Properties", href: "/hero", icon: Briefcase }, // 👈 changed
+  { name: "Properties", href: "/hero", icon: Briefcase },
   { name: "Contact", href: "/contact", icon: Phone },
 ];
 
 function useLocalStorage(key: string) {
   return useSyncExternalStore(
     () => () => {},
-    () => localStorage.getItem(key),
+    () => (typeof window !== "undefined" ? localStorage.getItem(key) : null),
     () => null,
   );
 }
 
 const Navbar = () => {
   const router = useRouter();
+  const [open, setOpen] = useState(false);
 
   const token = useLocalStorage("token");
   const userRaw = useLocalStorage("user");
@@ -53,6 +44,8 @@ const Navbar = () => {
   };
 
   const handleScroll = (href: string) => {
+    setOpen(false);
+
     if (href === "hero") {
       document.getElementById("hero")?.scrollIntoView({
         behavior: "smooth",
@@ -69,25 +62,25 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-4 left-0 right-0 z-50 px-4">
-      <div className="max-w-6xl mx-auto flex justify-between items-center h-16 px-6 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.15)]">
+    <nav className="fixed top-0 left-0 w-full z-50 border-b border-white/10 bg-[#D6BD98] backdrop-blur-xl shadow-md">
+      <div className="flex items-center justify-between px-6 h-16">
         {/* Logo */}
         <Link href="/">
-          <h3 className="text-white text-2xl italic font-bold tracking-wide">
+          <h3 className="text-white text-xl font-bold italic tracking-wide">
             Bismillah Royal House Developer LTD
           </h3>
         </Link>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-8 items-center">
+        <ul className="hidden md:flex items-center gap-8">
           {allNavItems.map((item) => {
             const Icon = item.icon;
 
             return (
-              <li key={item.name} className="relative group">
+              <li key={item.name}>
                 <button
                   onClick={() => handleScroll(item.href)}
-                  className={`flex items-center gap-2 font-medium transition-colors duration-300 ${
+                  className={`flex items-center gap-2 text-sm font-medium transition ${
                     item.name === "Admin"
                       ? "text-blue-300"
                       : "text-white/80 hover:text-white"
@@ -96,8 +89,6 @@ const Navbar = () => {
                   <Icon size={16} />
                   {item.name}
                 </button>
-
-                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
               </li>
             );
           })}
@@ -106,7 +97,7 @@ const Navbar = () => {
             <li>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 font-medium text-red-300 hover:text-red-200 transition-colors duration-300"
+                className="flex items-center gap-2 text-red-300 hover:text-red-200 transition"
               >
                 <LogOut size={16} />
                 Logout
@@ -115,24 +106,23 @@ const Navbar = () => {
           )}
         </ul>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button className="text-white/80 hover:text-white transition-colors duration-300">
-            <Menu size={26} />
-          </button>
-        </div>
+        {/* Mobile Toggle */}
+        <button className="md:hidden text-white" onClick={() => setOpen(!open)}>
+          {open ? <X size={26} /> : <Menu size={26} />}
+        </button>
       </div>
 
       {/* Mobile Menu */}
-      <div className="md:hidden mt-3 max-w-6xl mx-auto rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.15)] px-4 py-4 space-y-3">
-        {allNavItems.map((item) => {
-          const Icon = item.icon;
+      {open && (
+        <div className="md:hidden border-t border-white/10 bg-white/10 backdrop-blur-xl px-6 py-4 space-y-3">
+          {allNavItems.map((item) => {
+            const Icon = item.icon;
 
-          return (
-            <div key={item.name}>
+            return (
               <button
+                key={item.name}
                 onClick={() => handleScroll(item.href)}
-                className={`flex items-center gap-2 py-2 w-full text-left transition-colors duration-300 ${
+                className={`flex items-center gap-2 w-full text-left py-2 ${
                   item.name === "Admin"
                     ? "text-blue-300"
                     : "text-white/80 hover:text-white"
@@ -141,20 +131,20 @@ const Navbar = () => {
                 <Icon size={18} />
                 {item.name}
               </button>
-            </div>
-          );
-        })}
+            );
+          })}
 
-        {isLoggedIn && (
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 py-2 text-red-300 hover:text-red-200 transition-colors duration-300 w-full"
-          >
-            <LogOut size={18} />
-            Logout
-          </button>
-        )}
-      </div>
+          {isLoggedIn && (
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 text-red-300 hover:text-red-200 py-2"
+            >
+              <LogOut size={18} />
+              Logout
+            </button>
+          )}
+        </div>
+      )}
     </nav>
   );
 };

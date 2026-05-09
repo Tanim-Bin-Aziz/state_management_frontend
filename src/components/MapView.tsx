@@ -36,7 +36,7 @@ const MapView = ({ selected, properties }: any) => {
       <MapContainer
         center={[23.7937, 90.4066]}
         zoom={7}
-        style={{ height: "100%", width: "100%" }}
+        className="h-full w-full z-0"
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 

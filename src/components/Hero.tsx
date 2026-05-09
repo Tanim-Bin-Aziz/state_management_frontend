@@ -18,17 +18,14 @@ const Hero = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  // LEFT SIDEBAR
   const [isOpen, setIsOpen] = useState(true);
-
-  // RIGHT SIDEBAR
   const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getProperties();
-        setProperties(data);
+        setProperties(data as unknown as Property[]);
       } catch (error) {
         console.error("Failed to fetch properties:", error);
       }
@@ -47,7 +44,18 @@ const Hero = () => {
   };
 
   return (
-    <main className="flex h-full w-full overflow-hidden bg-[#f8fafc]">
+    <div
+      className="
+      flex
+      h-screen
+      w-full
+      overflow-hidden
+      bg-gradient-to-b from-white via-slate-50 to-slate-100
+      relative
+      pt-2
+      z-0
+    "
+    >
       {/* LEFT SIDEBAR */}
       <div
         className={`
@@ -70,7 +78,7 @@ const Hero = () => {
       </div>
 
       {/* MAP */}
-      <div className="flex-1 relative overflow-hidden">
+      <div className="flex-1 relative  overflow-hidden rounded-xl mx-2">
         <MapView properties={filteredProperties} selected={selected} />
       </div>
 
@@ -82,7 +90,7 @@ const Hero = () => {
           ease-in-out
           border-l
           border-gray-200
-          bg-white/90
+          bg-white/80
           backdrop-blur-xl
           shadow-2xl
           overflow-hidden
@@ -105,6 +113,7 @@ const Hero = () => {
         </div>
       </div>
 
+      {/* MODAL */}
       {showModal && (
         <AddPropertyModal
           onClose={() => setShowModal(false)}
@@ -113,7 +122,7 @@ const Hero = () => {
           }}
         />
       )}
-    </main>
+    </div>
   );
 };
 
