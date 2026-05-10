@@ -35,14 +35,13 @@ export function WhyChooseUs() {
     <section className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">
             Why Choose Us
           </h2>
-          <p className="text-lg text-white/60 max-w-2xl mx-auto">
+          <p className="text-lg text-black/60 max-w-2xl mx-auto">
             We provide exceptional service and expertise in luxury real estate
           </p>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => {
             const Icon = feature.icon;
@@ -53,15 +52,15 @@ export function WhyChooseUs() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-8 hover:bg-white/10 hover:border-white/30 transition-all duration-300 group"
+                className="bg-white/5 backdrop-blur-xl rounded-2xl border shadow-2xl border-black/10 p-8 hover:bg-white/10 hover:border-white/30 transition-all duration-300 group"
               >
-                <div className="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
-                  <Icon size={28} className="text-white" />
+                <div className="w-14 h-14 rounded-xl bg-black/10 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
+                  <Icon size={28} className="text-black" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">
+                <h3 className="text-xl font-semibold text-black mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-white/60 leading-relaxed">
+                <p className="text-black/60 leading-relaxed">
                   {feature.description}
                 </p>
               </motion.div>

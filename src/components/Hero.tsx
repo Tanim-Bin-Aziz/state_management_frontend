@@ -44,18 +44,7 @@ const Hero = () => {
   };
 
   return (
-    <div
-      className="
-      flex
-      h-screen
-      w-full
-      overflow-hidden
-      bg-gradient-to-b from-white via-slate-50 to-slate-100
-      relative
-      pt-2
-      z-0
-    "
-    >
+    <div className="flex h-screen w-full overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-100 relative pt-5 pb-5 z-0">
       <div
         className={`
           relative

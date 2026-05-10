@@ -15,10 +15,10 @@ const Category = () => {
     <section className="py-20 px-4 sm:px-6 lg:px-8 ">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">
             Browse by Category
           </h2>
-          <p className="text-lg text-white/60">
+          <p className="text-lg text-black/60">
             Find properties that match your lifestyle
           </p>
         </div>
@@ -49,16 +49,16 @@ const Category = () => {
                     duration: 0.2,
                   },
                 }}
-                className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-8 hover:bg-white/10 hover:border-white/30 transition-all duration-500 group"
+                className="shadow-2xl bg-black/5 backdrop-blur-xl rounded-2xl border border-black/10 p-8 hover:bg-black/10 hover:border-white/30 transition-all duration-500 group"
               >
                 <div className="flex flex-col items-center text-center">
                   <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors">
-                    <Icon size={32} className="text-white" />
+                    <Icon size={32} className="text-black" />
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">
+                  <h3 className="text-lg font-semibold text-black mb-2">
                     {category.label}
                   </h3>
-                  <p className="text-sm text-white/60">{category.count}</p>
+                  <p className="text-sm text-black/60">{category.count}</p>
                 </div>
               </motion.button>
             );

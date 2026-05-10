@@ -66,7 +66,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between px-6 h-16">
         {/* Logo */}
         <Link href="/">
-          <h3 className="text-white text-xl font-bold italic tracking-wide">
+          <h3 className="text-black text-xl font-bold italic tracking-wide">
             Bismillah Royal House Developer LTD
           </h3>
         </Link>
@@ -82,8 +82,8 @@ const Navbar = () => {
                   onClick={() => handleScroll(item.href)}
                   className={`flex items-center gap-2 text-sm font-medium transition ${
                     item.name === "Admin"
-                      ? "text-blue-300"
-                      : "text-white/80 hover:text-white"
+                      ? "text-black"
+                      : "text-black/80 hover:text-teal-500"
                   }`}
                 >
                   <Icon size={16} />
@@ -97,7 +97,7 @@ const Navbar = () => {
             <li>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 text-red-300 hover:text-red-200 transition"
+                className="flex items-center gap-2 text-red-500 hover:text-red-800 transition"
               >
                 <LogOut size={16} />
                 Logout
@@ -124,8 +124,8 @@ const Navbar = () => {
                 onClick={() => handleScroll(item.href)}
                 className={`flex items-center gap-2 w-full text-left py-2 ${
                   item.name === "Admin"
-                    ? "text-blue-300"
-                    : "text-white/80 hover:text-white"
+                    ? "text-black"
+                    : "text-black/80 hover:text-teal-500"
                 }`}
               >
                 <Icon size={18} />

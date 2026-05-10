@@ -38,18 +38,16 @@ const Testimonials = () => {
   return (
     <section className=" py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Heading */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">
             Client Testimonials
           </h2>
 
-          <p className="text-lg text-white/60">
+          <p className="text-lg text-black/70">
             Hear what our satisfied clients have to say
           </p>
         </div>
 
-        {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((testimonial, index) => (
             <motion.div
@@ -67,17 +65,21 @@ const Testimonials = () => {
                   duration: 0.3,
                 },
               }}
-              className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 transition-all duration-500 hover:border-white/30 hover:bg-white/10"
+              className="rounded-2xl shadow-2xl border border-black/10 bg-white/5 backdrop-blur-xl p-8 transition-all duration-500 hover:border-white/30 hover:bg-white/10"
             >
               {/* Stars */}
               <div className="flex gap-1 mb-6">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} size={18} className="fill-white text-white" />
+                  <Star
+                    key={i}
+                    size={18}
+                    className="fill-amber-300 text-amber-300"
+                  />
                 ))}
               </div>
 
               {/* Content */}
-              <p className="text-white/80 leading-relaxed mb-8">
+              <p className="text-black/80 leading-relaxed mb-8">
                 {testimonial.content}
               </p>
 
@@ -93,11 +95,11 @@ const Testimonials = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-white">
+                  <h4 className="font-semibold text-black">
                     {testimonial.name}
                   </h4>
 
-                  <p className="text-sm text-white/60">{testimonial.role}</p>
+                  <p className="text-sm text-black/60">{testimonial.role}</p>
                 </div>
               </div>
             </motion.div>

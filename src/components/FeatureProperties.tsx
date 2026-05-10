@@ -13,7 +13,7 @@ const Badge = ({ children }: { children: React.ReactNode }) => (
   </span>
 );
 
-export default function FeaturedProperties() {
+const FeaturedProperties = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,8 +21,6 @@ export default function FeaturedProperties() {
     const load = async () => {
       try {
         const data = await getProperties();
-
-        // safety + limit 4
         setProperties(Array.isArray(data) ? data.slice(0, 4) : []);
       } catch (err) {
         console.error("Failed to load properties:", err);
@@ -43,10 +41,10 @@ export default function FeaturedProperties() {
       <div className="max-w-7xl mx-auto">
         {/* Heading */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-3">
+          <h2 className="text-4xl font-bold text-black mb-3">
             Featured Properties
           </h2>
-          <p className="text-white/60">Handpicked premium listings</p>
+          <p className="text-black/60">Handpicked premium listings</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -59,7 +57,7 @@ export default function FeaturedProperties() {
               viewport={{ once: true }}
               className="group"
             >
-              <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/5 hover:scale-[1.02] transition">
+              <div className="rounded-2xl overflow-hidden shadow-2xl border border-black/10 bg-white/5 hover:scale-[1.02] transition">
                 <div className="relative h-48">
                   <Image
                     src={p.plotDetails?.plotPhoto as string}
@@ -68,23 +66,27 @@ export default function FeaturedProperties() {
                     className="object-cover group-hover:scale-110 transition"
                   />
 
-                  <div className="absolute top-3 right-3">
+                  <div className="absolute top-3 right-3 ">
                     <Badge>{p.tag || "Property"}</Badge>
                   </div>
                 </div>
 
-                <div className="p-5 text-white">
+                <div className="p-5 text-black">
                   <h3 className="font-semibold text-lg">{p.title}</h3>
-                  <div className="flex items-center gap-1 text-white/60 text-sm mt-1">
-                    <MapPin size={14} />
-                    {p.location}
+                  <div className="flex items-center gap-1 text-black/60 text-sm mt-1">
+                    <MapPin size={14} className="shrink-0" />
+                    <span className="truncate">
+                      {String(
+                        p.plotDetails?.address || "Address not available",
+                      )}
+                    </span>
                   </div>
-                  <div className="flex justify-between mt-4 text-sm text-white/70">
+                  <div className="flex justify-between mt-4 text-sm text-black/70">
                     <div className="flex items-center gap-2">
                       <div className="flex items-center gap-1">
                         <BsCash size={16} className="shrink-0 mt-[3px]" />
                         <span>Price/sqft:</span>
-                        <span className="text-white">
+                        <span className="text-black/70">
                           {p.flatDetails?.pricePerSqFt
                             ? `৳ ${Number(
                                 p.flatDetails.pricePerSqFt,
@@ -98,7 +100,7 @@ export default function FeaturedProperties() {
                       <div className="flex items-center gap-1">
                         <BsHouse size={14} className="shrink-0" />
                         <span>Available:</span>
-                        <span className="text-white">
+                        <span className="text-black/70">
                           {p.salesInformation?.totalFlats != null &&
                           p.salesInformation?.soldFlats != null
                             ? Number(p.salesInformation.totalFlats) -
@@ -116,4 +118,5 @@ export default function FeaturedProperties() {
       </div>
     </section>
   );
-}
+};
+export default FeaturedProperties;
