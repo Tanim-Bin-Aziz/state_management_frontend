@@ -48,15 +48,18 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...(name.trim() && { name: name.trim() }),
-          email,
-          password,
-        }),
-      });
+      const res = await fetch(
+        "https://state-management-backend.vercel.app/api/auth/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...(name.trim() && { name: name.trim() }),
+            email,
+            password,
+          }),
+        },
+      );
 
       const data = await res.json();
 
