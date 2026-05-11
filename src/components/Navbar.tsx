@@ -1,7 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Briefcase, Phone, Menu, Shield, LogOut, X } from "lucide-react";
+import {
+  Home,
+  Briefcase,
+  Phone,
+  Menu,
+  Shield,
+  LogOut,
+  X,
+  LogIn,
+} from "lucide-react";
 import { useSyncExternalStore, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -40,7 +49,9 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    router.push("/login");
+
+    setOpen(false);
+    router.push("/");
   };
 
   const handleScroll = (href: string) => {
@@ -66,7 +77,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between px-6 h-16">
         {/* Logo */}
         <Link href="/">
-          <h3 className="text-black text-xl font-bold italic tracking-wide">
+          <h3 className="text-black text-[12px] lg:text-2xl font-bold italic tracking-wide">
             Bismillah Royal House Developer LTD
           </h3>
         </Link>
@@ -93,21 +104,32 @@ const Navbar = () => {
             );
           })}
 
-          {isLoggedIn && (
+          {/* Login / Logout */}
+          {isLoggedIn ? (
             <li>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 text-red-500 hover:text-red-800 transition"
+                className="flex items-center gap-2 text-red-500 hover:text-red-700 transition"
               >
                 <LogOut size={16} />
                 Logout
+              </button>
+            </li>
+          ) : (
+            <li>
+              <button
+                onClick={() => router.push("/login")}
+                className="flex items-center gap-2 text-black/80 hover:text-teal-500 transition"
+              >
+                <LogIn size={16} />
+                Login
               </button>
             </li>
           )}
         </ul>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden text-white" onClick={() => setOpen(!open)}>
+        <button className="md:hidden text-black" onClick={() => setOpen(!open)}>
           {open ? <X size={26} /> : <Menu size={26} />}
         </button>
       </div>
@@ -122,7 +144,7 @@ const Navbar = () => {
               <button
                 key={item.name}
                 onClick={() => handleScroll(item.href)}
-                className={`flex items-center gap-2 w-full text-left py-2 ${
+                className={`flex items-center gap-2 w-full text-left py-2 transition ${
                   item.name === "Admin"
                     ? "text-black"
                     : "text-black/80 hover:text-teal-500"
@@ -134,13 +156,25 @@ const Navbar = () => {
             );
           })}
 
-          {isLoggedIn && (
+          {/* Login / Logout */}
+          {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 text-red-300 hover:text-red-200 py-2"
+              className="flex items-center gap-2 text-red-500 hover:text-red-700 py-2 transition"
             >
               <LogOut size={18} />
               Logout
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                setOpen(false);
+                router.push("/login");
+              }}
+              className="flex items-center gap-2 text-black/80 hover:text-teal-500 py-2 transition"
+            >
+              <LogIn size={18} />
+              Login
             </button>
           )}
         </div>

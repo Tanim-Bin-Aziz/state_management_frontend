@@ -22,7 +22,7 @@ export interface Property {
   updatedAt: string;
 }
 
-// ───────────── PUBLIC ─────────────
+// public api
 const getProperties = async (): Promise<Property[]> => {
   const res = await api.get("/properties");
   return res.data.data;
@@ -33,19 +33,36 @@ const createProperty = async (data: any): Promise<Property> => {
   return res.data.data;
 };
 
-// ───────────── ADMIN ─────────────
+// admin api
+export const getAllProperties = async (): Promise<Property[]> => {
+  const res = await api.get("/properties");
+  return res.data.data;
+};
+
 export const getPendingProperties = async (): Promise<Property[]> => {
-  const res = await api.get("/admin/properties/pending");
+  const res = await api.get("/properties/pending");
   return res.data.data;
 };
 
 export const approveProperty = async (id: string): Promise<Property> => {
-  const res = await api.patch(`/admin/properties/${id}/approve`);
+  const res = await api.patch(`/properties/${id}/approve`);
   return res.data.data;
 };
 
 export const rejectProperty = async (id: string): Promise<Property> => {
-  const res = await api.patch(`/admin/properties/${id}/reject`);
+  const res = await api.patch(`/properties/${id}/reject`);
+  return res.data.data;
+};
+
+export const deleteProperty = async (id: string): Promise<void> => {
+  await api.delete(`/properties/${id}`);
+};
+
+export const updateProperty = async (
+  id: string,
+  data: Partial<Property>,
+): Promise<Property> => {
+  const res = await api.patch(`/properties/${id}`, data);
   return res.data.data;
 };
 

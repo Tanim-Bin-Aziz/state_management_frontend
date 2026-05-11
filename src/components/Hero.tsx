@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
 import PropertyList from "@/components/PropertyList";
 import PropertyDetails from "@/components/PropertyDetails";
 import getProperties from "@/lib/api";
@@ -12,27 +13,39 @@ const MapView = dynamic(() => import("@/components/MapView"), {
   ssr: false,
 });
 
-const Hero = () => {
+// ✅ useSearchParams আলাদা component-এ রাখতে হবে
+const HeroContent = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [selected, setSelected] = useState<Property | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
-
   const [isOpen, setIsOpen] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
+
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getProperties();
-        setProperties(data as unknown as Property[]);
+        const props = data as unknown as Property[];
+        setProperties(props);
+
+        const selectedId = searchParams.get("selectedId");
+        if (selectedId) {
+          const found = props.find((p) => p._id === selectedId);
+          if (found) {
+            setSelected(found);
+            setShowDetails(true);
+          }
+        }
       } catch (error) {
         console.error("Failed to fetch properties:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [searchParams]);
 
   const filteredProperties = properties.filter((p) =>
     p.title.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -65,9 +78,10 @@ const Hero = () => {
         />
       </div>
 
-      <div className="flex-1 relative  overflow-hidden rounded-xl mx-2">
+      <div className="flex-1 relative overflow-hidden rounded-xl mx-2">
         <MapView properties={filteredProperties} selected={selected} />
       </div>
+
       <div
         className={`
           transition-all
@@ -97,6 +111,7 @@ const Hero = () => {
           />
         </div>
       </div>
+
       {showModal && (
         <AddPropertyModal
           onClose={() => setShowModal(false)}
@@ -106,6 +121,20 @@ const Hero = () => {
         />
       )}
     </div>
+  );
+};
+
+const Hero = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen w-full flex items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
+      <HeroContent />
+    </Suspense>
   );
 };
 

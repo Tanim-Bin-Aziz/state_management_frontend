@@ -1,6 +1,6 @@
-"use client";
-
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 
 import {
   Search,
@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Property } from "@/types/property";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const PropertyList = ({
   data,
@@ -21,9 +22,38 @@ const PropertyList = ({
   isOpen,
   setIsOpen,
 }: any) => {
+  const [user, setUser] = useState<any>(null);
+
+  // Detect logged in user
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
+    const handleAuthChange = () => {
+      const updatedUser = localStorage.getItem("user");
+
+      if (updatedUser) {
+        setUser(JSON.parse(updatedUser));
+      } else {
+        setUser(null);
+      }
+    };
+
+    window.addEventListener("authChange", handleAuthChange);
+
+    return () => {
+      window.removeEventListener("authChange", handleAuthChange);
+    };
+  }, []);
+
+  const canAddProperty = !!user;
+
   return (
     <div
-      className={`h-full  bg-white/70 backdrop-blur-xl border-r border-gray-200/60 shadow-xl transition-all duration-300 flex flex-col
+      className={`h-full bg-white/70 backdrop-blur-xl border-r border-gray-200/60 shadow-xl transition-all duration-300 flex flex-col
       ${isOpen ? "w-[350px]" : "w-[70px]"}`}
     >
       {/* HEADER */}
@@ -33,25 +63,35 @@ const PropertyList = ({
             <h2 className="text-lg font-semibold text-gray-900">
               All Projects
             </h2>
+
             <p className="text-xs text-gray-500">Explore available listings</p>
           </div>
         )}
 
-        {isOpen && (
+        <div className="flex items-center gap-2">
+          {/* ADD BUTTON */}
+          {isOpen && canAddProperty && (
+            <button
+              onClick={onAddNew}
+              className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-xl text-xs font-medium shadow-md transition"
+            >
+              <Plus size={14} />
+              Add
+            </button>
+          )}
+
+          {/* TOGGLE BUTTON */}
           <button
-            onClick={onAddNew}
-            className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-xl text-xs font-medium shadow-md transition"
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-lg hover:bg-gray-100 transition"
           >
-            <Plus size={14} />
-            Add
+            {isOpen ? (
+              <PanelLeftClose size={18} />
+            ) : (
+              <PanelLeftOpen size={18} />
+            )}
           </button>
-        )}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded-lg hover:bg-gray-100 transition"
-        >
-          {isOpen ? <PanelLeftClose size={18} /> : <PanelLeftOpen size={18} />}
-        </button>
+        </div>
       </div>
 
       {/* SEARCH */}
@@ -62,6 +102,7 @@ const PropertyList = ({
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
               size={16}
             />
+
             <input
               type="text"
               placeholder="Search projects..."
@@ -91,7 +132,7 @@ const PropertyList = ({
               />
             </div>
 
-            {/* CONTENT (hidden when collapsed) */}
+            {/* CONTENT */}
             {isOpen && (
               <div className="flex-1 min-w-0">
                 <h4 className="text-sm font-semibold text-gray-900 truncate group-hover:text-emerald-600">
@@ -100,6 +141,7 @@ const PropertyList = ({
 
                 <div className="flex items-center gap-1 text-gray-500 text-[11px] mt-1">
                   <MapPin size={12} />
+
                   <span className="truncate">{p.plotDetails?.address}</span>
                 </div>
 
@@ -115,9 +157,6 @@ const PropertyList = ({
           </div>
         ))}
       </div>
-
-      {/* glow */}
-      <div className="h-6 bg-gradient-to-t from-white to-transparent" />
     </div>
   );
 };

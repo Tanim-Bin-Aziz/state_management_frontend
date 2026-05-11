@@ -27,6 +27,7 @@ export type SalesInformation = {
 };
 
 export type Property = {
+  _id: string;
   id: number;
   title: string;
   lat: number;
@@ -35,4 +36,22 @@ export type Property = {
   plotDetails: PlotDetails;
   flatDetails: FlatDetails;
   salesInformation: SalesInformation;
+};
+
+export interface FlatSizeItem {
+  type: string;
+  size: string;
+}
+
+export type TypedProperty = {
+  _id: string;
+  title: string;
+  lat: number;
+  lng: number;
+  status: "pending" | "approved" | "rejected";
+  createdAt?: string;
+
+  plotDetails?: PlotDetails;
+  flatDetails?: FlatDetails;
+  salesInformation?: SalesInformation;
 };

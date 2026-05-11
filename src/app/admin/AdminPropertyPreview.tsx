@@ -57,6 +57,7 @@ const AdminPropertyPreview = ({
 
   return (
     <div className="bg-white flex flex-col rounded-2xl overflow-hidden">
+      {/* Header */}
       <div className="px-5 py-4 border-b border-gray-100 flex items-start justify-between gap-3">
         <div className="min-w-0">
           <span className="inline-flex items-center gap-1.5 text-xs font-medium text-amber-600 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full mb-2">
@@ -71,6 +72,7 @@ const AdminPropertyPreview = ({
             {property.plotDetails?.address || "No address"}
           </p>
         </div>
+
         <button
           onClick={onClose}
           className="mt-1 shrink-0 p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition"
@@ -80,6 +82,7 @@ const AdminPropertyPreview = ({
       </div>
 
       <div className="overflow-y-auto max-h-[65vh]">
+        {/* Image */}
         <div className="relative h-52 w-full bg-gray-100">
           <Image
             src={property.plotDetails?.plotPhoto || "/placeholder.png"}
@@ -91,6 +94,7 @@ const AdminPropertyPreview = ({
         </div>
 
         <div className="p-5 space-y-6">
+          {/* Stats */}
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-emerald-50 rounded-xl p-3 text-center">
               <p className="text-[11px] text-emerald-600 font-medium uppercase tracking-wide">
@@ -100,6 +104,7 @@ const AdminPropertyPreview = ({
                 {formatPrice(property.flatDetails?.pricePerSqFt)}
               </p>
             </div>
+
             <div className="bg-blue-50 rounded-xl p-3 text-center">
               <p className="text-[11px] text-blue-600 font-medium uppercase tracking-wide">
                 Available
@@ -108,6 +113,7 @@ const AdminPropertyPreview = ({
                 {availableFlats} flats
               </p>
             </div>
+
             <div className="bg-gray-50 rounded-xl p-3 text-center">
               <p className="text-[11px] text-gray-500 font-medium uppercase tracking-wide">
                 Total
@@ -117,6 +123,8 @@ const AdminPropertyPreview = ({
               </p>
             </div>
           </div>
+
+          {/* Progress */}
           <div>
             <div className="flex justify-between text-xs text-gray-500 mb-1.5">
               <span>Sales Progress</span>
@@ -131,11 +139,36 @@ const AdminPropertyPreview = ({
               />
             </div>
           </div>
+
+          {/* Location */}
           <Section icon={<MapPin size={14} />} title="Location">
             <div className="rounded-xl overflow-hidden h-[200px] border border-gray-200">
               <MapView properties={[property]} selected={property} />
             </div>
           </Section>
+
+          {/* 🆕 Plot Info (NEW ADDED SECTION) */}
+          <Section icon={<Layers size={14} />} title="Plot Information">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gray-50 rounded-xl p-3">
+                <p className="text-[11px] text-gray-500 uppercase">
+                  Owner Name
+                </p>
+                <p className="text-sm font-semibold text-gray-800 mt-1">
+                  {property.plotDetails?.plotOwnerName || "N/A"}
+                </p>
+              </div>
+
+              <div className="bg-gray-50 rounded-xl p-3">
+                <p className="text-[11px] text-gray-500 uppercase">Plot Size</p>
+                <p className="text-sm font-semibold text-gray-800 mt-1">
+                  {property.plotDetails?.plotSize || "N/A"}
+                </p>
+              </div>
+            </div>
+          </Section>
+
+          {/* Flat Sizes */}
           {(property.flatDetails?.flatSize?.length ?? 0) > 0 && (
             <Section icon={<LayoutGrid size={14} />} title="Flat Sizes">
               <div className="space-y-2">
@@ -160,6 +193,8 @@ const AdminPropertyPreview = ({
               </div>
             </Section>
           )}
+
+          {/* Floor Plans */}
           {(property.flatDetails?.flatPlan?.length ?? 0) > 0 && (
             <Section icon={<Layers size={14} />} title="Floor Plans">
               <div className="grid grid-cols-2 gap-3">
@@ -187,19 +222,21 @@ const AdminPropertyPreview = ({
         </div>
       </div>
 
+      {/* Actions */}
       <div className="p-4 border-t border-gray-100 flex gap-3 bg-white">
         <button
           onClick={() => onApprove(property._id)}
           disabled={isApproving || isRejecting}
-          className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-60 disabled:cursor-not-allowed text-white py-3 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2 transition-colors"
+          className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-60 text-white py-3 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2"
         >
           <Check size={16} />
           {isApproving ? "Approving…" : "Approve"}
         </button>
+
         <button
           onClick={() => onReject(property._id)}
           disabled={isApproving || isRejecting}
-          className="flex-1 bg-red-50 hover:bg-red-100 disabled:opacity-60 disabled:cursor-not-allowed text-red-600 py-3 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2 border border-red-200 transition-colors"
+          className="flex-1 bg-red-50 hover:bg-red-100 disabled:opacity-60 text-red-600 py-3 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2 border border-red-200"
         >
           <Ban size={16} />
           {isRejecting ? "Rejecting…" : "Reject"}
@@ -208,4 +245,5 @@ const AdminPropertyPreview = ({
     </div>
   );
 };
+
 export default AdminPropertyPreview;
