@@ -13,7 +13,6 @@ const MapView = dynamic(() => import("@/components/MapView"), {
   ssr: false,
 });
 
-// ✅ useSearchParams আলাদা component-এ রাখতে হবে
 const HeroContent = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [selected, setSelected] = useState<Property | null>(null);
